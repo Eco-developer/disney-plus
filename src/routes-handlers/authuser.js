@@ -6,9 +6,16 @@ const router = Router();
 const authUserHandler = async (req, res) => {
 	try {
 		if (req.isAuthenticated()) {
-			res.status(200).send(req.user);
+			const authUser = await models.User.findOne({_id: req.user._id});
+			const {
+				_doc: {
+					user_password,
+					...rest
+				}
+			} = authUser;
+			res.status(200).send({...rest});
 		} else {
-			res.status(200).send(null);
+			res.status(200).send('');
 		}
 	} catch (error) {
 		res.status(500).send(error);

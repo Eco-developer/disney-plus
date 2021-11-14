@@ -1,6 +1,8 @@
 import Form from './index.js';
 import Input from '../Input/index.js';
 import CustomError from '../Error/index.js';
+import axios from 'axios';
+import DISNEY_API from '../../const/disneyApi.js';
 import { 
 	FormContainer,
 	FormGroup,
@@ -21,19 +23,21 @@ const SignInForm = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState(null);
+	const { push } = useHistory();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const user = {email, password};
+		const user = {
+			user_email: email.toLowerCase(),
+			user_password: password,
+		};
 		try {
-			/*const response = await axios.post(
-				`${FACEBOOK_API}login`,
+			const response = await axios.post(
+				`${DISNEY_API}login`,
 				{...user}, 
 				{withCredentials: true}
 			)
-			
-			if (response.data) {
-			}*/
+			console.log(response.data);
 		} catch (error) {
 			setError(error.response?.data);		
 		}

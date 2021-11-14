@@ -9,25 +9,34 @@ import {
 	Description,
 	ContainerInnerLogoTwo,
 } from './style.js';
+import { useHistory } from 'react-router-dom';
+import { SIGNUP_PAGE } from '../../const/routes.js';
 
-const Home = () => (
-	<ContainerMain>
-		<Container>
-      		<Content>
-        		<ContainerInner>
-          			<ContainerInnerLogoOne src="/images/cta-logo-one.svg" alt="" />
-          			<SignUp>
-          				Subscribe
-          			</SignUp>
-          				<Description>
-            				The place where the story beggins.
-          				</Description>
-          				<ContainerInnerLogoTwo src="/images/cta-logo-two.png" alt="" />
-        		</ContainerInner>
-        		<BgImage />
-      		</Content>
+const Home = () => {
+  const { push } = useHistory();
+
+  const goToSignUpPage = () => {
+    push(SIGNUP_PAGE);
+  };
+
+  return (
+	  <ContainerMain>
+		  <Container>
+      	<Content>
+        	<ContainerInner>
+          	<ContainerInnerLogoOne src="/images/cta-logo-one.svg" alt="" />
+          	<SignUp onClick={goToSignUpPage}>
+          		Subscribe
+          	</SignUp>
+          	<Description>
+            	The place where the story beggins.
+          	</Description>
+          	<ContainerInnerLogoTwo src="/images/cta-logo-two.png" alt="" />
+        	</ContainerInner>
+        	<BgImage />
+      	</Content>
     	</Container>
-	</ContainerMain>
-)
-
+	  </ContainerMain>
+  )
+}
 export default Home;

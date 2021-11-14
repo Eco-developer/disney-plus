@@ -20,9 +20,11 @@ const signUpHandler = async (req, res) => {
 		return res.status(400).send('email or passaword are invalids')
 	}
 
-	let user = await models.User.findOne({email: req.body.user_email});
+	let user = await models.User.findOne({user_email: req.body.user_email});
 	if (user) {
-		return res.status(400).send('User with this email address already exist')
+		return res.status(400).send({
+			type: 'email', 
+			message: 'User with this email address already exist'})
 	}
 	try {
 		const hashPassword = await bcrypt.hash(req.body.user_password, 8);
@@ -31,11 +33,11 @@ const signUpHandler = async (req, res) => {
 		const signedUser = await models.User.findOne({user_email: req.body.user_email});
 		
 		const { 
-			user_name, 
-			_id 
+			user_password, 
+			...rest 
 		} = signedUser._doc;
 		
-		res.status(201).send({user_name, _id});
+		res.status(201).send({...rest});
 	} catch (error) {
 		return res.status(500).send('something went wrong')
 	}

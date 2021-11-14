@@ -3,7 +3,8 @@ import { Button } from '../../global-styles/index.js';
 
 export const FormContainer = styled.div`
 	width: 400px;
-	padding: 8px;
+	padding: 15px;
+	margin-top: 60px;
 	form {
 		display: flex;
 		flex-direction: column;
@@ -18,7 +19,7 @@ export const Logo = styled.div`
   	padding: 0;
  	width: 100%;
  	display: flex;
- 	place-items: center;
+ 	justify-content: center;
   	img {
     	height: 80px;
     	object-fit: contain;
@@ -30,6 +31,10 @@ export const FormGroup = styled.div`
 	display: flex;
 	flex-direction: column;
 	margin: 7px 0;	
+	h5 {
+		font-size: 15px;
+		margin: 0; 
+	}
 `;
 
 export const SubmitButton = styled(Button)`

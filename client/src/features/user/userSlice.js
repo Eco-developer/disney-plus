@@ -18,7 +18,10 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUserLoginDetails, setSignOutState } = userSlice.actions;
+export const {
+  setUserLoginDetails, 
+  setSignOutState 
+} = userSlice.actions;
 
 export const selectUser = (state) => state.user.userData;
 

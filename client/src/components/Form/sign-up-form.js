@@ -1,6 +1,8 @@
 import Form from './index.js';
 import Input from '../Input/index.js';
 import CustomError from '../Error/index.js';
+import axios from 'axios';
+import DISNEY_API from '../../const/disneyApi.js';
 import { 
 	FormContainer,
 	FormGroup,
@@ -14,55 +16,123 @@ import {
 	useHistory 
 } from 'react-router-dom';
 import { LANDING_PAGE } from '../../const/routes.js';
+import { 
+	emailPattern, 
+	passwordPattern 
+} from '../../const/patterns.js';
 
 const SignUpForm = () => {
+	const { push } = useHistory();
+	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [passwordRepit, setPasswordRepit] = useState('');
 	const [phone, setPhone] = useState('');
 	const [errorSubmit, setErrorSubmit] = useState(null);
+	const [error, setErrors] = useState({});
+	const [success, setSuccess] = useState({});
+	const [processing, setProcessing] = useState(false);
+	const emailValidator = new RegExp(emailPattern);
+	const passwordValidator = new RegExp(passwordPattern);
+
+	const valid = name && email && emailValidator.test(email) && password && passwordValidator.test(password) && passwordRepit && password === passwordRepit;
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const user = {email, password};
-		try {
-			/*const response = await axios.post(
-				`${FACEBOOK_API}login`,
-				{...user}, 
-				{withCredentials: true}
-			)
-			
-			if (response.data) {
-			}*/
-		} catch (error) {
-			setError(error.response?.data);		
+		if ((!valid || errorSubmit || processing)) {
+			return;
 		}
-	}
+		setProcessing(true);
+		const user = {
+			user_name: name,
+			user_email: email.toLowerCase(),
+			user_password: password,
+			phone_number: phone,
+		};
+		try {
+			const response = await axios.post(
+				`${DISNEY_API}sign-up`,
+				{...user}, 
+			)	
+
+			if (response.data) {
+				const responseLogin = await axios.post(
+				`${DISNEY_API}login`,
+					{...user}, 
+					{withCredentials: true}
+				)
+			}
+		} catch (error) {
+			setProcessing(false)
+			setErrorSubmit(error.response?.data);
+		}
+	};
+
+	const validateInput = (condition, empty, target) => {
+		if (empty) {
+			setSuccess((prevState) => ({...prevState, [target]: false}))
+			setErrors((prevState) => ({...prevState, [target]: false}))
+			return;
+		}
+		if (!condition) {
+			setErrors((prevState) => ({...prevState, [target]: true}))
+			setSuccess((prevState) => ({...prevState, [target]: false}))
+		} else {
+			setErrors((prevState) => ({...prevState, [target]: false}))
+			setSuccess((prevState) => ({...prevState, [target]: true}))
+		}
+	};
 
 	const onChangeEmail = (e) => {
-		const { target: { value } } = e;
-		if (error) {setErrorSubmit(null)}
+		const { 
+			target: { 
+				value,
+				id 
+			} 
+		} = e;
+		if (errorSubmit) {setErrorSubmit(null)}
 		setEmail(value);
-	}
+		validateInput(emailValidator.test(value), !value, id);
+		if (errorSubmit) {
+			setErrorSubmit(null)
+		}
+	};
 
 	const onChangePassword = (e) => {
-		const { target: { value } } = e;
+		const { 
+			target: { 
+				value,
+				id 
+			} 
+		} = e;		
 		setPassword(value);
-	}
+		validateInput(passwordValidator.test(value), !value, id);
+	};
 
 	const onChangePasswordRepit = (e) => {
-		const { target: { value } } = e;
+		const { 
+			target: { 
+				value,
+				id 
+			} 
+		} = e;
 		setPasswordRepit(value);
-	}
+		validateInput(password === value, !value, id);
+	};
 
 	const onChangePhone = (e) => {
 		const { target: { value } } = e;
 		setPhone(value);
-	}
+	};
+
+	const onChangeName = (e) => {
+		const { target: { value } } = e;
+		setName(value);
+	};
 
 	const goToHome = () => {
     	push(LANDING_PAGE);
-  	}
+  	};
 
 	return (
 		<FormContainer>
@@ -74,28 +144,39 @@ const SignUpForm = () => {
 				</FormGroup>
 				<FormGroup>
 					<h5>
-						Email <Important>*</Important>
+						Full name <Important>*</Important>
 					</h5>
 					<Input
-						id='emailInput'
+						id='name'
+						value={name}
+						type="text"
+						placeholder='Full name'
+						onChange={onChangeName}
+					/>					
+				</FormGroup>
+				<FormGroup>
+					<h5>
+						Enter a valid email adress <Important>*</Important>
+					</h5>
+					<Input
+						id='email'
 						value={email}
+						success={email ? success?.email : null}
+						error={email ? error?.email : null}
 						type="email"
 						placeholder='Email adress'
 						onChange={onChangeEmail}
 					/>
-					{errorSubmit && 
-						<CustomError
-							error={errorSubmit}
-							type='email'
-						/>}
 				</FormGroup>
 				<FormGroup>
 					<h5>
-						Enter a valid Password <Important>*: must contain at least 8 characters, one uppercase, one lowercase, one simbol</Important>
+						Enter a valid Password <Important>*: at least 8 characters long, one uppercase, one lowercase, one symbol.</Important>
 					</h5>
 					<Input
-						id='passwordInput'
+						id='password'
 						value={password}
+						success={password ? success?.password : null}
+						error={password ? error?.password : null}
 						type="password"
 						placeholder='Password'
 						onChange={onChangePassword}
@@ -106,10 +187,12 @@ const SignUpForm = () => {
 						Repit Password
 					</h5>
 					<Input
-						id='passwordRepitInput'
+						id='passwordRepit'
 						value={passwordRepit}
+						success={passwordRepit ? success?.passwordRepit : null}
+						error={passwordRepit ? error?.passwordRepit : null}
 						type="password"
-						placeholder='Pepit password'
+						placeholder='Repit password'
 						onChange={onChangePasswordRepit}
 					/>					
 				</FormGroup>
@@ -119,18 +202,24 @@ const SignUpForm = () => {
 					</h5>
 					<Input
 						id='phoneInput'
-						value={passwordRepit}
+						value={phone}
 						type="text"
 						placeholder='Phone'
 						onChange={onChangePhone}
 					/>					
 				</FormGroup>
+				{errorSubmit && 
+						<CustomError
+							error={errorSubmit}
+							type='email'
+						/>}
 				<FormGroup>
 					<SubmitButton 
 						type='submit'
-						disabled={!email || !password || error}
+						disabled={(!valid || errorSubmit || processing) ? true : false}
+						onClick={handleSubmit}
 					>
-						Sign in
+						Create account
 					</SubmitButton>
 				</FormGroup>
 			</Form>

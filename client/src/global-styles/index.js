@@ -28,8 +28,8 @@ export const Button = styled.button`
     border-color: transparent;
   }
 
-  &:disable {
-    opacity: 0.6;
+  &:disabled {
+    opacity: 0.5;
   }
 `;
 

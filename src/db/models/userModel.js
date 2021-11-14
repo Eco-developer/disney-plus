@@ -18,11 +18,21 @@ const userSchema = mongoose.Schema(
 			required: true,
 			trim: true,
 		},
+		user_avatar: {
+			type: String,
+			trim: true,
+			default: '',
+		},
 		phone_number: {
 			type: String,
 			trim: true,
 			default: '',
 		},
+		user_subscription: {
+			type: String,
+			trim: true,
+			default: '',
+		}
 	},
 );
 
