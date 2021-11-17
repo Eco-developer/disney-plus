@@ -1,5 +1,4 @@
 import models from '../db/index.js';
-import bcrypt from 'bcryptjs';
 import passport from 'passport';
 import { Router } from 'express';
 
@@ -11,8 +10,15 @@ const loginHandler = async (req, res, next) => {
 			if (err || !user) {
 				return res.status(401).send(info);
 			}
-			req.logIn(user, (err) =>{
-				res.status(200).send(req.user);
+			req.logIn(user, async (err) => {
+				const authUser = await models.User.findOne({_id: req.user._id});
+				const {
+					_doc: {
+						user_password,
+						...rest
+					}
+				} = authUser;
+				res.status(200).send({...rest});
 				next()
 			})
 		})(req, res, next);

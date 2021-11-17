@@ -11,11 +11,16 @@ import {
 	Important
 } from './style.js';
 import { useState } from 'react';
+import { setUserLoginDetails } from '../../features/user/userSlice.js';
+import { useDispatch } from 'react-redux';
 import { 
 	Link,
 	useHistory 
 } from 'react-router-dom';
-import { LANDING_PAGE } from '../../const/routes.js';
+import { 
+	LANDING_PAGE,
+	PROFILE_PAGE
+} from '../../const/routes.js';
 import { 
 	emailPattern, 
 	passwordPattern 
@@ -32,6 +37,7 @@ const SignUpForm = () => {
 	const [error, setErrors] = useState({});
 	const [success, setSuccess] = useState({});
 	const [processing, setProcessing] = useState(false);
+	const dispatch = useDispatch();
 	const emailValidator = new RegExp(emailPattern);
 	const passwordValidator = new RegExp(passwordPattern);
 
@@ -58,9 +64,15 @@ const SignUpForm = () => {
 			if (response.data) {
 				const responseLogin = await axios.post(
 				`${DISNEY_API}login`,
-					{...user}, 
+					{
+						user_email: user.user_email, 
+						user_password: user.user_password
+					}, 
 					{withCredentials: true}
 				)
+				const { data } = responseLogin;
+				dispatch(setUserLoginDetails(data));
+				push(PROFILE_PAGE);
 			}
 		} catch (error) {
 			setProcessing(false)
@@ -143,9 +155,9 @@ const SignUpForm = () => {
       				</Logo>
 				</FormGroup>
 				<FormGroup>
-					<h5>
+					<label htmlFor='name'>
 						Full name <Important>*</Important>
-					</h5>
+					</label>
 					<Input
 						id='name'
 						value={name}
@@ -155,9 +167,9 @@ const SignUpForm = () => {
 					/>					
 				</FormGroup>
 				<FormGroup>
-					<h5>
+					<label htmlFor='email'>
 						Enter a valid email adress <Important>*</Important>
-					</h5>
+					</label>
 					<Input
 						id='email'
 						value={email}
@@ -169,9 +181,9 @@ const SignUpForm = () => {
 					/>
 				</FormGroup>
 				<FormGroup>
-					<h5>
+					<label htmlFor='password'>
 						Enter a valid Password <Important>*: at least 8 characters long, one uppercase, one lowercase, one symbol.</Important>
-					</h5>
+					</label>
 					<Input
 						id='password'
 						value={password}
@@ -183,9 +195,9 @@ const SignUpForm = () => {
 					/>					
 				</FormGroup>
 				<FormGroup>
-					<h5>
+					<label htmlFor='passwordRepit'>
 						Repit Password
-					</h5>
+					</label>
 					<Input
 						id='passwordRepit'
 						value={passwordRepit}
@@ -197,9 +209,9 @@ const SignUpForm = () => {
 					/>					
 				</FormGroup>
 				<FormGroup>
-					<h5>
+					<label htmlFor='phoneInput'>
 						Phone number
-					</h5>
+					</label>
 					<Input
 						id='phoneInput'
 						value={phone}

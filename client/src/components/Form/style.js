@@ -31,9 +31,10 @@ export const FormGroup = styled.div`
 	display: flex;
 	flex-direction: column;
 	margin: 7px 0;	
-	h5 {
+	label {
 		font-size: 15px;
 		margin: 0; 
+		color: white;
 	}
 `;
 

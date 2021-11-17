@@ -1,37 +1,73 @@
-import  Navigation from './domain/Navigation/index.js'
+import Navigation from './domain/Navigation/index.js'
+import Loading from './components/Loading/index.js';
 import axios from 'axios';
 import DISNEY_API from './const/disneyApi.js';
+import TMDBInstace from './services/axios.js';
+import TMDBRequests from './services/request.js';
 import { 
 	BrowserRouter as Router, 
 	Switch, 
 	Route 
 } from "react-router-dom";
 import { setUserLoginDetails } from './features/user/userSlice.js';
+import { setMovieGenres } from './features/movie/movieSlice.js';
+import { setSeriesGenres } from './features/series/seriesSlice.js';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { 
+	useEffect,
+	useState
+} from 'react';
 import "./App.css";
 
 function App() {
 	const dispatch = useDispatch();
+	const [loading, setLoading] = useState(true);
+
 	useEffect(() => {
-		const fetchAuthUser = async () => {
+		const fetchInitialData = async () => {
 			try {
-				const response = await axios.get(
+				/*const userResponse = await axios.get(
 					`${DISNEY_API}auth-user`,
 					{ withCredentials: true }
-				)
-				const { data } = response;
-				dispatch(setUserLoginDetails(data))
-				console.log(data)
+				)*/
+				const movieResponse = await TMDBInstace.get(TMDBRequests.movie.genres);
+				const seriesResponse = await TMDBInstace.get(TMDBRequests.series.genres);
+
+				/*const { 
+					data : userData 
+				} = userResponse;*/
+				const { 
+					data : {
+						genres : movieGenres
+					} 
+				} = movieResponse;
+				const {
+					data : {
+						genres : seriesGenres
+					}
+				} = seriesResponse;
+
+				dispatch(setMovieGenres(movieGenres));
+				dispatch(setSeriesGenres(seriesGenres));
+				/*if (!userData) {
+					setLoading(false);
+					return;
+				}
+				dispatch(setUserLoginDetails(userData));*/
+				setLoading(false);
 			} catch (error) {
 				console.log(error.response?.data);
 			}
 		}
-		fetchAuthUser()
+		fetchInitialData()
 	}, [])
   	return (
     	<div className="App">
-    	 	<Navigation/>
+    	 	
+    	 	{loading ? 
+    	 		<Loading/> : 
+    	 		<Navigation/>
+    	 	}
     	</div>
   	);
 }

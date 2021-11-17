@@ -10,6 +10,8 @@ import {
 	Logo
 } from './style.js';
 import { useState } from 'react';
+import { setUserLoginDetails } from '../../features/user/userSlice.js';
+import { useDispatch } from 'react-redux';
 import { 
 	Link,
 	useHistory 
@@ -23,10 +25,15 @@ const SignInForm = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState(null);
+	const [processing, setProcessing] = useState(false);
 	const { push } = useHistory();
+	const dispatch = useDispatch();
+	const disabled = !email || !password || error || processing;
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		if (disabled) { return; }
+		setProcessing(true);
 		const user = {
 			user_email: email.toLowerCase(),
 			user_password: password,
@@ -37,8 +44,10 @@ const SignInForm = () => {
 				{...user}, 
 				{withCredentials: true}
 			)
-			console.log(response.data);
+			const { data } = response;
+			dispatch(setUserLoginDetails(data));
 		} catch (error) {
+			setProcessing(false);
 			setError(error.response?.data);		
 		}
 	}
@@ -68,9 +77,9 @@ const SignInForm = () => {
       				</Logo>
 				</FormGroup>
 				<FormGroup>
-					<h5>
+					<label htmlFor="emailInput">
 						Enter your email
-					</h5>
+					</label>
 					<Input
 						id='emailInput'
 						value={email}
@@ -86,9 +95,9 @@ const SignInForm = () => {
 						/>}
 				</FormGroup>
 				<FormGroup>
-					<h5>
+					<label htmlFor='passwordInput'>
 						Enter your password
-					</h5>
+					</label>
 					<Input
 						id='passwordInput'
 						value={password}
@@ -105,7 +114,7 @@ const SignInForm = () => {
 				<FormGroup>
 					<SubmitButton 
 						type='submit'
-						disabled={!email || !password || error}
+						disabled={disabled}
 					>
 						Sign in
 					</SubmitButton>

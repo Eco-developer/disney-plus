@@ -11,6 +11,15 @@ export const ContainerMain = styled.div`
 	}
 `;
 
+export const CatalogueLoyout = styled(ContainerMain)`
+  position: relative;
+  padding: 0 calc(3.5vw + 5px);
+  background: url("/images/home-background.png") center center / cover
+      no-repeat fixed;
+  
+`;
+
+
 export const Button = styled.button`
 	background-color: rgba(0, 0, 0, 0.6);
   padding: 8px 16px;

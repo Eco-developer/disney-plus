@@ -3,46 +3,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
-const ImgSlider = (props) => {
-  let settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-  };
-  return (
-    <Carousel {...settings}>
-      <Wrap>
-        <a>
-          <img src="/images/slider-badging.jpg" alt="" />
-        </a>
-      </Wrap>
-
-      <Wrap>
-        <a>
-          <img src="/images/slider-scale.jpg" alt="" />
-        </a>
-      </Wrap>
-
-      <Wrap>
-        <a>
-          <img src="/images/slider-badag.jpg" alt="" />
-        </a>
-      </Wrap>
-
-      <Wrap>
-        <a>
-          <img src="/images/slider-scales.jpg" alt="" />
-        </a>
-      </Wrap>
-    </Carousel>
-  );
-};
-
-const Carousel = styled(Slider)`
-  margin-top: 20px;
+export const Carousel = styled(Slider)`
+  margin-top: 90px;
 
   & > button {
     opacity: 0;
@@ -80,31 +42,51 @@ const Carousel = styled(Slider)`
   }
 `;
 
-const Wrap = styled.div`
+export const Wrap = styled.div`
   border-radius: 4px;
   cursor: pointer;
   position: relative;
 
-  a {
+  div {
     border-radius: 4px;
     box-shadow: rgb(0 0 0 / 69%) 0px 26px 30px -10px,
     rgb(0 0 0 / 73%) 0px 16px 10px -10px;
     cursor: pointer;
     display: block;
     position: relative;
-    padding: 4px;
+    margin: 0 4px;
+    overflow: hidden;
+    padding-top: 35%;
 
     img {
+      position: absolute;
       width: 100%;
       height: 100%;
+      top: 0;
+      object-fit: fill;
     }
+  }
 
-    &:hover {
-      padding: 0;
-      border: 4px solid rgba(249, 249, 249, 0.8);
-      transition-duration: 300ms;
+  @media (min-width: 800px) {
+    div {
+      padding-top: 30%;
     }
   }
 `;
 
-export default ImgSlider;
+export const Title = styled.span`
+  position: absolute;
+  z-index: 2;
+  background-color: rgba(5, 5, 5, 0.7);
+  bottom: 0;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  p {
+    margin: 0;
+    font-size: 15px;
+    color: #FFF;
+    text-align: center;
+  }
+`

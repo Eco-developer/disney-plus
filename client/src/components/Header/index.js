@@ -1,15 +1,23 @@
+import HeaderItems from '../header-items/index.js';
+import axios from 'axios';
+import DISNEY_API from '../../const/disneyApi.js';
 import {
   HeaderContainer,
   Logo,
-  HeaderItems,
   SignUpButton,
 } from './style.js';
 import { Button } from '../../global-styles/index.js';
 import { 
-  useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+  useSelector,
+  useDispatch,
+} from "react-redux";
+import { 
+  useHistory,
+  useLocation,
+} from "react-router-dom";
 import {
   selectUser,
+  setSignOutState,
 } from "../../features/user/userSlice.js";
 import {
   LANDING_PAGE,
@@ -18,19 +26,39 @@ import {
 } from '../../const/routes.js';
 
 const Header = (props) => {
-  const { push } = useHistory();
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+  const { push } = useHistory();
+  const { pathname } =  useLocation();
   
   const goToSignIn = () => {
-    push(SIGNIN_PAGE);
+    if (!pathname.includes(SIGNIN_PAGE)) {
+      push(SIGNIN_PAGE);
+    }
   }
 
   const goToSignUp = () => {
-    push(SIGNUP_PAGE);
+    if (!pathname.includes(SIGNUP_PAGE)) {
+      push(SIGNUP_PAGE);
+    }
   }
 
   const goToHome = () => {
-    push(LANDING_PAGE);
+    if (pathname !== LANDING_PAGE) {
+      push(LANDING_PAGE);
+    }
+  }
+
+  const signOut = async () => {
+    try {
+      await axios.get(
+        `${DISNEY_API}logout`,
+        { withCredentials: true }
+      )
+      dispatch(setSignOutState());
+    } catch (error){
+      console.log(error)
+    }
   }
 
   return (
@@ -41,33 +69,10 @@ const Header = (props) => {
 
       {user ? (
         <>
-          <HeaderItems>
-            <li href="/home">
-              <img src="/images/home-icon.svg" alt="HOME" />
-              <span>HOME</span>
-            </li>
-            <li>
-              <img src="/images/search-icon.svg" alt="SEARCH" />
-              <span>SEARCH</span>
-            </li>
-            <li>
-              <img src="/images/watchlist-icon.svg" alt="WATCHLIST" />
-              <span>WATCHLIST</span>
-            </li>
-            <li>
-              <img src="/images/original-icon.svg" alt="ORIGINALS" />
-              <span>ORIGINALS</span>
-            </li>
-            <li>
-              <img src="/images/movie-icon.svg" alt="MOVIES" />
-              <span>MOVIES</span>
-            </li>
-            <li>
-              <img src="/images/series-icon.svg" alt="SERIES" />
-              <span>SERIES</span>
-            </li>
-          </HeaderItems>
-          
+          <HeaderItems/>
+          <Button onClick={signOut}>
+            sign out
+          </Button>
         </>
       ) : (
         <div>
@@ -82,6 +87,5 @@ const Header = (props) => {
     </HeaderContainer>
   );
 };
-
 
 export default Header;

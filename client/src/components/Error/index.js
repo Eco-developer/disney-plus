@@ -10,6 +10,7 @@ const CustomError = ({error, type}) => (
 
 const P = styled.p`
 	color: red;
+	margin: 0;
 	margin-top: 0.3rem;
 `
 
