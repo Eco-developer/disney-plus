@@ -26,16 +26,16 @@ function App() {
 	useEffect(() => {
 		const fetchInitialData = async () => {
 			try {
-				/*const userResponse = await axios.get(
+				const userResponse = await axios.get(
 					`${DISNEY_API}auth-user`,
 					{ withCredentials: true }
-				)*/
+				)
 				const movieResponse = await TMDBInstace.get(TMDBRequests.movie.genres);
 				const seriesResponse = await TMDBInstace.get(TMDBRequests.series.genres);
 
-				/*const { 
+				const { 
 					data : userData 
-				} = userResponse;*/
+				} = userResponse;
 				const { 
 					data : {
 						genres : movieGenres
@@ -49,11 +49,11 @@ function App() {
 
 				dispatch(setMovieGenres(movieGenres));
 				dispatch(setSeriesGenres(seriesGenres));
-				/*if (!userData) {
+				if (!userData) {
 					setLoading(false);
 					return;
 				}
-				dispatch(setUserLoginDetails(userData));*/
+				dispatch(setUserLoginDetails(userData));
 				setLoading(false);
 			} catch (error) {
 				console.log(error.response?.data);
