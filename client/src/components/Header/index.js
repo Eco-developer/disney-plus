@@ -5,6 +5,7 @@ import {
   HeaderContainer,
   Logo,
   SignUpButton,
+  Buttons,
 } from './style.js';
 import { Button } from '../../global-styles/index.js';
 import { 
@@ -51,6 +52,7 @@ const Header = (props) => {
 
   const signOut = async () => {
     try {
+      
       await axios.get(
         `${DISNEY_API}logout`,
         { withCredentials: true }
@@ -75,14 +77,14 @@ const Header = (props) => {
           </Button>
         </>
       ) : (
-        <div>
+        <Buttons>
           <SignUpButton onClick={goToSignUp}>
             Sign up
           </SignUpButton>
           <Button onClick={goToSignIn}>
             login
           </Button>
-        </div>
+        </Buttons>
       )}
     </HeaderContainer>
   );

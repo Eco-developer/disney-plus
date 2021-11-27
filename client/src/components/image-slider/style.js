@@ -40,6 +40,12 @@ export const Carousel = styled(Slider)`
   .slick-next {
     right: -75px;
   }
+
+  @media (max-width: 500px) {
+    .slick-dots li {
+        margin: 0;
+    }
+  }
 `;
 
 export const Wrap = styled.div`
@@ -85,8 +91,14 @@ export const Title = styled.span`
   justify-content: center;
   p {
     margin: 0;
-    font-size: 15px;
+    font-size: 12px;
     color: #FFF;
     text-align: center;
+  }
+  @media (min-width: 500px) {
+    padding: 6px;
+    p {
+      font-size: 20px;
+    }
   }
 `

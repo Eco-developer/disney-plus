@@ -52,7 +52,7 @@ const SignInForm = () => {
 		}
 	}
 
-		const onChangeEmail = (e) => {
+	const onChangeEmail = (e) => {
 		const { target: { value } } = e;
 		if (error) {setError(null)}
 		setEmail(value);

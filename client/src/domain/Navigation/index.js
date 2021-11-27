@@ -1,9 +1,9 @@
 import Header from '../../components/Header/index.js';
 import Home from '../Home/index.js';
-import CataloguePage from '../Catalogue/index.js';
 import CatalogueMoviesPage from '../Movies/index.js';
 import CatalogueSeriesPage from '../Series/index.js';
-import PlayScreenPage from '../play-screen/index.js';
+import MovieDetailsPage from '../movie-page/index.js';
+import SerieDetailsPage from '../serie-page/index.js';
 import ProfilePage from '../Profile/index.js';
 import WatchList from '../watch-list/index.js'
 import SignInPage from '../sign-in/index.js';
@@ -33,23 +33,23 @@ const Navigation = () => (
       <PublicOnlyRoute path={ROUTES.SIGNIN_PAGE}>
         <SignInPage/>
       </PublicOnlyRoute>
-      <PrivateRoute path={ROUTES.CATALOGUE_PAGE}>
-        <CataloguePage/>
-      </PrivateRoute>
       <PrivateRoute path={ROUTES.PROFILE_PAGE}>
         <ProfilePage/>
       </PrivateRoute>
-      <PrivateRoute path={ROUTES.CATALOGUE_MOVIES}>
+      <PrivateRoute exact path={ROUTES.CATALOGUE_MOVIES}>
         <CatalogueMoviesPage/>
       </PrivateRoute>
-      <PrivateRoute path={ROUTES.CATALOGUE_SERIES}>
+      <PrivateRoute exact path={ROUTES.CATALOGUE_SERIES}>
         <CatalogueSeriesPage/>
       </PrivateRoute>
       <PrivateRoute path={ROUTES.WATCH_LIST}>
         <WatchList/>
       </PrivateRoute>
       <PrivateRoute path={ROUTES.MOVIE_PAGE}>
-        <PlayScreenPage/>
+        <MovieDetailsPage/>
+      </PrivateRoute>
+      <PrivateRoute path={ROUTES.SERIE_PAGE}>
+        <SerieDetailsPage/>
       </PrivateRoute>
       <Redirect to={ROUTES.LANDING_PAGE}/>
     </Switch>

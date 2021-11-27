@@ -8,7 +8,7 @@ import {
 	FiPlus,
 	FiMenu,
 } from 'react-icons/fi';
-import { FaStar } from 'react-icons/fa';
+import { CgProfile } from 'react-icons/cg';
 import { 
 	RiMovie2Fill,
 	RiTvFill,
@@ -18,9 +18,10 @@ import {
   useHistory,
   useLocation,
 } from "react-router-dom";
+import { v4 as uuid } from 'uuid';
 import {
 	LANDING_PAGE,
-	CATALOGUE_PAGE,
+	PROFILE_PAGE,
 	CATALOGUE_MOVIES,
 	CATALOGUE_SERIES,
 	WATCH_LIST,
@@ -31,7 +32,7 @@ const HeaderItems = () => {
 	const { pathname } =  useLocation();
 	const { push } = useHistory();
 
-	const items = [{Icon: HiHome, text: 'HOME', page: LANDING_PAGE}, {Icon: FiPlus, text: 'WATCHLIST', page: WATCH_LIST}, {Icon: FaStar, text: 'ORIGINALS', page: CATALOGUE_PAGE}, {Icon: RiMovie2Fill, text: 'MOVIES', page: CATALOGUE_MOVIES}, {Icon: RiTvFill, text: 'SERIES', page: CATALOGUE_SERIES}]
+	const items = [{Icon: HiHome, text: 'HOME', page: LANDING_PAGE}, {Icon: FiPlus, text: 'WATCHLIST', page: WATCH_LIST}, {Icon: CgProfile, text: 'PROFILE', page: PROFILE_PAGE}, {Icon: RiMovie2Fill, text: 'MOVIES', page: CATALOGUE_MOVIES}, {Icon: RiTvFill, text: 'SERIES', page: CATALOGUE_SERIES}]
 	const handleOpen = () => {
 		setOpen(prevState => !prevState);
 	};
@@ -47,7 +48,7 @@ const HeaderItems = () => {
 			}
 			return;
 		}
-    	if (!pathname.includes(page)) {
+    	if (pathname.slice(1) !== page) {
       		push(page);
     	}
   	}
@@ -59,7 +60,7 @@ const HeaderItems = () => {
 					<HeaderItem
 						Icon={Icon}
 						text={text}
-						key={text}
+						key={uuid()}
 						handlePage={goToPage}
 						page={page}
 						current={(pathname === page) ? true : (page !== LANDING_PAGE && pathname.includes(page)) ? true : false }
@@ -82,7 +83,7 @@ const HeaderItem = ({Icon, text, handlePage, page, current}) => {
 		<Item 
 			current={current} 
 			onClick={handleClick}
-		>
+		>	
         	<Icon/>
         	<span>{text}</span>
     	</Item>

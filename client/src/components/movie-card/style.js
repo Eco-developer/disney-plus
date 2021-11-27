@@ -51,15 +51,21 @@ export const DetailsContainer = styled.div`
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+  overflow-y: scroll;
+  -ms-overflow-style: none; 
+    scrollbar-width: none;
+  &::-webkit-scrollbar {
+      display: none;
+  }
+
   h6 {
     margin: 0;
-    padding: 20px;
+    padding: 15px;
+    padding-bottom: 8px;
     font-size: 15px;
     color: #FFF;
   }
-
 `
 
 export const Stats = styled.div`
@@ -71,7 +77,7 @@ export const Stats = styled.div`
 
 export const Stat = styled.div`
   display: flex;
-  padding: 2px 20px;
+  padding: 2px 15px;
   margin: 0;
   height: fit-content !important;
   svg {
@@ -82,6 +88,7 @@ export const Stat = styled.div`
   p {
     font-size: 15px;
     color: #FFF;
+    opacity: 0.8;
     margin: 0;
   }
 `

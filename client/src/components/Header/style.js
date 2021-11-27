@@ -13,7 +13,7 @@ export const HeaderContainer = styled.nav`
   align-items: center;
   padding: 0 36px;
   letter-spacing: 16px;
-  z-index: 3;
+  z-index: 4;
   @media (max-width: 500px) {
     padding: 0 10px;
   }
@@ -62,6 +62,10 @@ export const DropDown = styled.div`
   width: 100px;
   opacity: 0;
 `;
+
+export const Buttons = styled.div`
+  display: flex;
+`
 
 export const SignOut = styled.div`
   position: relative;

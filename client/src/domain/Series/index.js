@@ -2,6 +2,7 @@ import MoviesContainer from '../../components/movies-container/index.js';
 import ImageSlider from '../../components/image-slider/index.js';
 import Viewers from '../../components/Viewers/index.js';
 import Select from '../../components/Select/index.js';
+import Pagination from '../../components/Pagination/index.js';
 import Loading from '../../components/Loading/index.js';
 import TMDBInstance from '../../services/axios.js';
 import TMDBRequests from '../../services/request.js';
@@ -10,16 +11,22 @@ import {
 	useState,
 	useEffect
 } from 'react';
-import { useSelector } from "react-redux";
-import { selectSeriesGenres } from '../../features/series/seriesSlice.js'
+import { 
+	useSelector,
+	useDispatch
+} from "react-redux";
+import { selectSeriesGenres } from '../../features/series/seriesSlice.js';
+import { setError } from '../../features/error/errorSlice.js';
 
 const CatalogueSeriesPage = () => {
 	const [series, setSeries] = useState([]);
-	const [seriesSlider, setSeriesSlider] = useState();;
+	const [seriesSlider, setSeriesSlider] = useState([]);
 	const [page, setPage] = useState(1);
 	const genres = useSelector(selectSeriesGenres);
 	const [genre, setGenre] = useState(genres[0]);
+	const [totalPages, setTotalPages] = useState(1);
 	const [loading, setLoading] = useState(true);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		const fetchSeriesSlider = async () => {
@@ -27,12 +34,13 @@ const CatalogueSeriesPage = () => {
 				const response = await TMDBInstance.get(`${TMDBRequests.series.baseUrl}`);
 				const { 
 					data : {
-						results
-					}
+						results,
+					},
 				} = response;
-				setSeriesSlider(results.slice(0,10))
+				const sliderImages = results.filter(item => !!item.backdrop_path || !!item.poster_path).slice(0,10);
+				setSeriesSlider(sliderImages);
 			} catch(error) {
-				console.log(error)
+				dispatch(setError());
 			}
 		}
 		fetchSeriesSlider();
@@ -49,26 +57,40 @@ const CatalogueSeriesPage = () => {
 					} 
 				} = response;
 				setSeries(results);
+				const total = Math.min(99, total_pages)
+				setTotalPages(total);
 				setLoading(false);
 			} catch(error) {
-				console.log(error)
+				dispatch(setError());
 			}
 		}
 		fetchSeries();
-	},[genre])
+	},[genre, page])
 	return (
 		<CatalogueLoyout>
-			<ImageSlider slider={seriesSlider}/>
+			{seriesSlider.length ?
+			 <ImageSlider slider={seriesSlider}/>
+			 : null
+			}
 			<Viewers/>
 			<Select
 				options={genres}
 				currentOption={genre}
 				setGenre={setGenre}
+				setPage={setPage}
 			/>
 			<MoviesContainer
 				movies={series}
 			/>
-			{loading ? <Loading/> : null}
+			<Pagination
+				setPage={setPage}
+				currentPage={page}
+				totalPages={totalPages}
+				pageNeighbours={2}
+			/>
+			{(loading && !seriesSlider.length) ? 
+				<Loading/> : 
+			null}
 		</CatalogueLoyout>
 	)
 }

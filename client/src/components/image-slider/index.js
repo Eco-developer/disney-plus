@@ -4,10 +4,17 @@ import {
   Title,
 } from './style.js';
 import { v4 as uuid } from 'uuid';
+import { 
+  useHistory,
+  useLocation,
+} from "react-router-dom";
 
 const base_url = 'https://image.tmdb.org/t/p/original/';
 
 const ImageSlider = ({slider=[]}) => {
+  const { pathname } =  useLocation();
+  const { push } = useHistory();
+
   const settings = {
     dots: true,
     infinite: true,
@@ -16,11 +23,19 @@ const ImageSlider = ({slider=[]}) => {
     slidesToScroll: 1,
     autoplay: true,
   };
+
+  const handleClick = (id) => {
+    push(`${pathname}/${id}`);
+  }
+
   return (
     <Carousel {...settings}>
-      {slider.length ? 
+      { 
         slider.map((item) => (
-          <Wrap key={uuid()}>
+          <Wrap 
+            key={uuid()}
+            onClick={() => handleClick(item.id)}
+          >
             <div>
               <Title>
                 <p>
@@ -34,14 +49,6 @@ const ImageSlider = ({slider=[]}) => {
             </div>
           </Wrap>
         ))
-      : <Wrap>
-          <div>
-            <img 
-              src="/images/slider-badging.jpg" 
-              alt="slider-image" 
-            />
-          </div>
-        </Wrap>
       }
     </Carousel>
   );

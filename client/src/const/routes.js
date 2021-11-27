@@ -1,7 +1,6 @@
 const LANDING_PAGE = '/';
 const SIGNUP_PAGE = '/create-account';
 const SIGNIN_PAGE = '/login';
-const CATALOGUE_PAGE = '/catalogue-disney';
 const PROFILE_PAGE = '/profile';
 const CATALOGUE_MOVIES = '/catalogue-movies';
 const CATALOGUE_SERIES = '/catalogue-series';
@@ -13,7 +12,6 @@ export {
 	LANDING_PAGE,
 	SIGNUP_PAGE,
 	SIGNIN_PAGE,
-	CATALOGUE_PAGE,
 	CATALOGUE_MOVIES,
  	CATALOGUE_SERIES,
  	WATCH_LIST,

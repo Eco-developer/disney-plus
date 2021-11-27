@@ -44,6 +44,7 @@ app.use('/api/v1/sign-up', routes.signUpRouter);
 app.use('/api/v1/login', routes.loginRouter);
 app.use('/api/v1/auth-user', routes.authUserRouter);
 app.use('/api/v1/logout', routes.logoutRouter);
+app.use('/api/v1/update', routes.updateUserRouter);
 
 if (process.env.NODE_ENV === 'production') {
 	const dir = __dirname.replace('src', '').replace('build', '');

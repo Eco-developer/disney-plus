@@ -19,7 +19,6 @@ import {
 } from 'react-router-dom';
 import { 
 	LANDING_PAGE,
-	PROFILE_PAGE
 } from '../../const/routes.js';
 import { 
 	emailPattern, 
@@ -72,7 +71,6 @@ const SignUpForm = () => {
 				)
 				const { data } = responseLogin;
 				dispatch(setUserLoginDetails(data));
-				push(PROFILE_PAGE);
 			}
 		} catch (error) {
 			setProcessing(false)

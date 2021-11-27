@@ -28,6 +28,9 @@ export const Button = styled.button`
   border: 1px solid #f9f9f9;
   border-radius: 4px;
   color: #FFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
  	transition: all 0.4s ease 0s;
 
@@ -35,6 +38,9 @@ export const Button = styled.button`
    	background-color: #f9f9f9;
    	color: #000;
     border-color: transparent;
+    svg {
+      color: #000;
+    }
   }
 
   &:disabled {

@@ -4,7 +4,7 @@ import {
 } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../features/user/userSlice.js";
-import { CATALOGUE_PAGE } from '../../const/routes.js';
+import { CATALOGUE_MOVIES } from '../../const/routes.js';
 
 const PublicOnlyRoute = ({children, ...rest}) => {
 	const user = useSelector(selectUser);
@@ -12,7 +12,7 @@ const PublicOnlyRoute = ({children, ...rest}) => {
 		!user ?
  		<Route {...rest}>
  			{children}
- 		</Route> : <Redirect to={CATALOGUE_PAGE}/> 			
+ 		</Route> : <Redirect to={CATALOGUE_MOVIES}/> 			
   	);
 }
 

@@ -38,7 +38,6 @@ export const HeaderItemsBase = styled.ul`
     overflow: hidden;
     top: 70px;
     height: ${props => props.open ? 'calc(100vh - 70px)' : '0px' };
-    opacity: ${props => props.open ? '1' : '0' };
     margin: 0;
     right: 0;
     left: 0;

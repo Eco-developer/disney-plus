@@ -7,24 +7,22 @@ const localStrategyCallback = async (user_email, user_password, callback) => {
 		if (!user) { 			
 			return callback(null, false,  { message: "Incorrect useremail", type: 'email'})
 		}
-
 		const { 
 			user_password: password, 
 			user_name,
-			_id, ...rest
-		} = user.toObject();
+			_id,
+		} = user;
 		const isValid = await bcrypt.compare(
 			user_password,
 			password
-		)
+		);
 		if (!isValid) {
-			return callback(null, false,  { message: "Incorrect password", type: 'password'})
+			return callback(null, false, { message: "Incorrect password", type: 'password'})
 		}
 		const secureUser = {
 			user_name,
 			_id,
 		}
-
 		return callback(null, secureUser);
 
 	} catch (error) {

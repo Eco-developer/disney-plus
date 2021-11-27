@@ -8,7 +8,7 @@ import {
 } from './style.js';
 import { v4 as uuid } from 'uuid';
 
-const Select = ({options = [], currentOption='', setGenre}) => {
+const Select = ({options = [], currentOption='', setGenre, setPage}) => {
   const [show, setShow] = useState(false);
 
   const showMenu = (e) => {
@@ -21,23 +21,24 @@ const Select = ({options = [], currentOption='', setGenre}) => {
       		closeMenu();
     	} 
     }
-  }
+  };
 
   const closeMenu = (e) => {
     setShow(false);
     document.removeEventListener('click', closeMenu);
     
-  }
+  };
 
   const onChange = (obj) => {
     setGenre(obj);
-  }
+    setPage(1);
+  };
 
   return (
-    <Container>
+    <Container id='select'>
       <Selected
-       show={show} 
-       onClick={showMenu}
+        show={show} 
+        onClick={showMenu}
       > 
         <p>
           {currentOption.name}
