@@ -9,7 +9,8 @@
     "dev": "nodemon --exec npm run babel-node src/index.js",
     "clean": "rm -rf build && mkdir build",
     "build-babel": "babel src -d build",
-    "build-server": "npm run clean && npm run build-babel"
+    "build-server": "npm run clean && npm run build-babel",
+    "build-client": "cd client/ && npm install && npm run build"
   },
   "keywords": [],
   "author": "",
