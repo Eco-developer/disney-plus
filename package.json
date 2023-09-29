@@ -10,7 +10,7 @@
     "clean": "rm -rf build && mkdir build",
     "build-babel": "babel src -d build",
     "build-server": "npm run clean && npm run build-babel",
-    "build-client": "cd client/ && npm install && npm run build cd .."
+    "build-client": "cd client/ && npm install && npm run build && cd .."
   },
   "keywords": [],
   "author": "",
