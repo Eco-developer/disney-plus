@@ -44,18 +44,9 @@ app.use('/api/v1/auth-user', routes.authUserRouter);
 app.use('/api/v1/logout', routes.logoutRouter);
 app.use('/api/v1/update', routes.updateUserRouter);
 
-if (process.env.NODE_ENV === 'production') {
-	const dir = __dirname.replace('src', '').replace('build', '');
-	app.use(express.static(path.join(dir, '/client/build')));
-	app.get('*', (req, res) => {
-		res.sendFile(path.join(dir, 'client', 'build', 'index.html'));
-	})
-
-} else {
-	app.get('/', (req, res) => {
-		res.send('disney-plus-clone server development');
-	});
-}
+app.get('/', (req, res) => {
+	res.send('disney-plus-clone server development');
+});
 
 //Config:
 
