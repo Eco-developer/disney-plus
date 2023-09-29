@@ -1,8 +1,0 @@
-node_modules
-env
-build
-
-client/node_modules
-client/build
-client/.pnp
-client/.pnp.js
