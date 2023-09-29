@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run build-server && node build/index.js",
-    "dev": "nodemon --exec babel-node src/index.js",
+    "babel-node": "babel-node --presets=@babel/preset-env",
+    "dev": "nodemon --exec npm run babel-node src/index.js",
     "clean": "rm -rf build && mkdir build",
     "build-babel": "babel src -d build",
-    "build-server": "npm run clean && npm run build-babel",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "build-server": "npm run clean && npm run build-babel"
   },
   "keywords": [],
   "author": "",
