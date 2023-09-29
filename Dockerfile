@@ -1,7 +1,7 @@
 FROM node:16.14.0
-WORKDIR /src
+WORKDIR /
 
-COPY . /src
+COPY . /
 
 RUN npm install
 
