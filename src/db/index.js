@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import User from './models/userModel.js';
-import 'dotenv/config';
+require('dotenv').config();
 
 const mongooseHeader = {
 	useNewUrlParser: true,
@@ -13,8 +13,6 @@ export const connectDb = () => {
 		)
 };
 
-const models = { 
+export { 
 	User,
 };
-
-export default models;
