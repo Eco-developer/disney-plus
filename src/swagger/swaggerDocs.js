@@ -2,7 +2,7 @@
  * @swagger
  * tags:
  *   name: Auth
- *   description: The Disney+ API.
+ *   description: Authentication endpoints.
  * /api/v1/login:
  *   post:
  *     summary: Login into your account.
@@ -56,5 +56,34 @@
  *         description: Returns an object with the signed up user's token.
  *       400:
  *         description: Returns an object with the errors messages of the signup form values.
- *
+ * 
+ *   name: User
+ *   description: User endpoints.
+ * /api/v1/update/user/{userId}:
+ *   put:
+ *     summary: Modify the user's watchlist.
+ *     tags: [User]
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         requiered: true
+ *         description: The user's id.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *            type: object
+ *            required:
+ *              - watchlist_item
+ *            properties:
+ *              watchlist_item:
+ *                type: object
+ *     responses:
+ *       200:
+ *         description: Returns a token with the updated user information.
+ *       400:
+ *         description: Returns an object with the errors messages of the login form values.
  */

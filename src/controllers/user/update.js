@@ -39,6 +39,6 @@ export const updateUser = async (req, res) => {
 
 		res.status(200).send(token);
 	} catch (error) {
-		res.status(500).send(error);
+		return res.status(404).send("User not found.");
 	}
 }
